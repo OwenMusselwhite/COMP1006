@@ -1,4 +1,5 @@
 <?php
+//declare(strict_types=1);
 //1. Code Commenting 
 
 //inline code 
