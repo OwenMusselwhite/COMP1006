@@ -5,7 +5,7 @@ declare(strict_types=1);
 $host = "localhost"; 
 $db = "test_connection"; 
 $user = "root"; 
-$pass = ""; 
+$password = ""; 
 
 $dsn = "mysql:host=$host;dbname=$db";
 
@@ -17,3 +17,4 @@ try {
 catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+require_once "connect.php";
 //declare(strict_types=1);
 //1. Code Commenting 
 
@@ -50,6 +52,27 @@ echo add($num1, $num2);
 */
 
 //6. OOP with PHP 
+
+class person{
+    public $name;
+    public $age;
+    public $isInstructor;
+
+    public function __construct($name, $age, $isInstructor)
+    {
+        $this->name = $name;
+        $this->age = $age;
+        $this->isInstructor = $isInstructor;
+    }
+
+    public function getBadge()
+    {
+        $role = $this->isInstructor ? "Instructor" : "Student";
+        return "Name :  {$this->name} | Age: {$this->age} | Role : $role";
+    }
+}
+
+
 
 //create the class 
 
