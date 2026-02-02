@@ -91,12 +91,12 @@
     </fieldset>
 
     <fieldset>
-      <legend>Additional Comments</legend>
+      <legend>Message</legend>
 
       <p>
-        <label for="comments">Comments (optional)</label><br>
-        <textarea id="comments" name="comments" rows="4"
-          placeholder="Allergies, delivery instructions, custom messages..."></textarea>
+        <label for="message">Message</label><br>
+        <textarea id="message" name="message" rows="4" required
+          placeholder="Your message for us..."></textarea>
       </p>
     </fieldset>
 
