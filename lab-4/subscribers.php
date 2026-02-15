@@ -11,7 +11,9 @@ require "includes/connect.php";
   5. Fetch all results into $subscribers
 */
 
-$subscribers = []; // placeholder
+$stmt = $pdo->prepare("SELECT * FROM subscribers ORDER BY subscribed_at DESC");
+$stmt->execute();
+$subscribers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <main class="container mt-4">
@@ -32,6 +34,7 @@ $subscribers = []; // placeholder
       </thead>
       <tbody>
         <!-- TODO: Loop through $subscribers and output each row -->
+         
       </tbody>
     </table>
   <?php endif; ?>
