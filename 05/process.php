@@ -68,6 +68,29 @@ if (!empty($errors)) {
 
 /*4*/
 
+//Buld our query using named placeholders
+
+$sql = "INSERT INTO orders (first_name, last_name, email, phone, address, comments) VALUES (:first_name, :last_name, :email, :phone, :address, :comments)";
+
+
+//prepare the query
+
+$stmt = $pdo->prepare($sql);
+
+//map the named placeholders to the actual values from the form
+
+$stmt->bindValue(':first_name', $firstName, PDO::PARAM_STR);
+$stmt->bindValue(':last_name', $lastName, PDO::PARAM_STR);
+$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+$stmt->bindValue(':phone', $phone, PDO::PARAM_STR);
+$stmt->bindValue(':address', $address, PDO::PARAM_STR);
+$stmt->bindValue(':comments', $comments, PDO::PARAM_STR);
+
+// Execute the prepared statement
+$stmt->execute();
+
+//close the connection (optional, since it will close when the script ends)
+$pdo = null; 
 
 ?>
 <? require "includes/header.php"; ?> 
