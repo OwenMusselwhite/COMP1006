@@ -5,16 +5,20 @@ require "includes/connect.php";
 $dsn = "mysql:host=$host;dbname=$db";
 //   TODO: Grab form data (no validation or sanitization for this lab)
 
-$first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
-$last_name = isset($_POST['last_name']) ? $_POST['last_name'] : '';
-$email = isset($_POST['email']) ? $_POST['email'] : '';
-
+$firstName = 'first_name';
+$lastName  = 'last_name';
+$email     = 'email';
 /*
   1. Write an INSERT statement with named placeholders
   2. Prepare the statement
   3. Execute the statement with an array of values
 */
-
+$stmt = $pdo->prepare("INSERT INTO subscribers (first_name, last_name, email) VALUES (:first_name, :last_name, :email)");
+$stmt->execute([
+    ':first_name' => $firstName,
+    ':last_name' => $lastName,
+    ':email' => $email
+]);
 
 
 ?>
@@ -35,6 +39,7 @@ $email = isset($_POST['email']) ? $_POST['email'] : '';
         <!-- TODO: Display a confirmation message -->
         <!-- Example: "Thanks, Name! You have been added to our mailing list." -->
 
+        <p>Thanks, <?= htmlspecialchars($firstName) ?>! You have been added to our mailing list.</p>
 
         <p class="mt-3">
             <a href="subscribers.php">View Subscribers</a>
