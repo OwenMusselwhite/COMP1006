@@ -5,6 +5,10 @@ require "includes/connect.php";
 $dsn = "mysql:host=$host;dbname=$db";
 //   TODO: Grab form data (no validation or sanitization for this lab)
 
+$first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
+$last_name = isset($_POST['last_name']) ? $_POST['last_name'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+
 /*
   1. Write an INSERT statement with named placeholders
   2. Prepare the statement
