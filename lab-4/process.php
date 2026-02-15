@@ -2,10 +2,12 @@
 require "includes/header.php";
 require "includes/connect.php";
 //  TODO: connect to the database 
-$dsn = "mysql:host=$host;dbname=$db";
+
+$dsn = "mysql:host=$host;dbname=$db"; //connect to databse
+
 //   TODO: Grab form data (no validation or sanitization for this lab)
 
-$firstName = 'first_name';
+$firstName = 'first_name'; //grab form data
 $lastName  = 'last_name';
 $email     = 'email';
 /*
@@ -39,7 +41,7 @@ $stmt->execute([
         <!-- TODO: Display a confirmation message -->
         <!-- Example: "Thanks, Name! You have been added to our mailing list." -->
 
-        <p>Thanks, <?= htmlspecialchars($firstName) ?>! You have been added to our mailing list.</p>
+        <p>Thanks, <?= htmlspecialchars($firstName) ?>! You have been added to our mailing list.</p> <!--conformation message-->
 
         <p class="mt-3">
             <a href="subscribers.php">View Subscribers</a>
