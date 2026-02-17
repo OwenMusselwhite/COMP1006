@@ -5,14 +5,13 @@
 //connect to the database 
 $dsn = "mysql:host=$host;dbname=$db"; //connect to databse
 
-//   TODO: Grab form data (no validation or sanitization for this lab)
 
-$firstName = $_POST['first_name']; //grab form data
-$lastName  = $_POST['last_name'];
-$position  = $_POST['position'];
-$email     = $_POST['email'];
-$phone     = $_POST['phone'];
 
+$firstName = trim(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS)); //grab form data
+$lastName  = trim(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS));
+$position  = trim(filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS));
+$email     = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
+$phone     = trim(filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_SPECIAL_CHARS));
 
 $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) VALUES (:first_name, :last_name, :position, :email, :phone)");
 $stmt->execute([
