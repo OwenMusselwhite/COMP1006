@@ -1,3 +1,7 @@
+<?php
+require "includes/connect.php"; //connect to the database
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +35,7 @@
             <button class="btn btn-primary mt-4" type="submit">Add to Roster</button>
         </form>
 
-        
+
 
         <p class="mt-4">
             <a href="roster.php">View Roster</a>
