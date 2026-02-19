@@ -1,17 +1,25 @@
 <?php
 //require "includes/header.php";
-//require "includes/connect.php";
+require "includes/connect.php";
 
 //connect to the database 
 $dsn = "mysql:host=$host;dbname=$db"; //connect to databse
 
+$action = $_GET['action'] ?? null;
 
+$errors = [];
+////////////
+//ADD FORM//
+////////////
+if ($action === 'add') {
+    $firstName = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS);
+    $lastName = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS);
+    $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS);
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $phone     = filter_input(INPUT_POST,'phone',FILTER_SANITIZE_SPECIAL_CHARS);
 
-$firstName = trim(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS)); //grab form data
-$lastName  = trim(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS));
-$position  = trim(filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS));
-$email     = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
-$phone     = trim(filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_SPECIAL_CHARS));
+}
+
 
 $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) VALUES (:first_name, :last_name, :position, :email, :phone)");
 $stmt->execute([
