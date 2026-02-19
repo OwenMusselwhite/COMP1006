@@ -37,6 +37,16 @@ $success = $_GET['success'] ?? null; //get the success message from the URL
     <a class="btn" href="add.php">Add New Player</a>
     </div>
 
+    <table class="roster-table">
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Position</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+    </tr>
+
 
 <div class="top-actions">
     <a class="btn" href="add.php">Add New Player</a>
