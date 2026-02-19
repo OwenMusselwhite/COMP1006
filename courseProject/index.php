@@ -47,6 +47,24 @@ $success = $_GET['success'] ?? null; //get the success message from the URL
         <th>Actions</th>
     </tr>
 
+    <?php foreach ($players as $row): ?>
+        <tr>
+            <td><?= htmlspecialchars($row['first_name']) ?></td>
+            <td><?= htmlspecialchars($row['last_name']) ?></td>
+            <td><?= htmlspecialchars($row['position']) ?></td>
+            <td><?= htmlspecialchars($row['email']) ?></td>
+            <td><?= htmlspecialchars($row['phone']) ?></td>
+            <td class="actions">
+                <a class="edit-btn" href="process.php?action=editForm&id=<?= $row['id'] ?>">Edit</a>
+                <a class="delete-btn" 
+                   href="process.php?action=delete&id=<?= $row['id'] ?>"
+                   onclick="return confirm('Are you sure you want to delete this player?')">
+                   Delete
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+
 
 <div class="top-actions">
     <a class="btn" href="add.php">Add New Player</a>
