@@ -60,10 +60,16 @@ if ($action === 'add'){
 }
 
 if ($action === "editForm") { 
-    $id = $_GET['id']; 
-    $stmt = $conn->prepare("SELECT * FROM team_members WHERE id = ?"); 
-    $stmt->bind_param("i", $id); $stmt->execute(); 
-    $member = $stmt->get_result()->fetch_assoc(); 
+
+    $id = $_GET['id'] ?? null; 
+
+    if ($id === null) {
+        die("Invalid ID");
+    }
+
+    $stmt = $pdo->prepare("SELECT * FROM team_members WHERE id = ?"); 
+    $stmt->execute([$id]); 
+    $member = $stmt->fetch(PDO::FETCH_ASSOC); 
 ?> 
     <h2>Edit Team Member</h2> 
     <form method="POST" action="process.php?action=update&id=<?= $id ?>"> 
