@@ -55,7 +55,7 @@ if ($action === 'add'){
         ':email' => $email,
         ':phone' => $phone
     ]);
-    header("Location: index.php");
+    header("Location: index.php?success=added");
     exit;
 }
 //==================//
@@ -117,8 +117,8 @@ if ($action === "update") {
         $phone => $phone, 
         $id => $id
     ]);
-    header("Location: index.php");
-    exit;
+    header("Location: index.php?success=added");
+    exit;  
 }
 
 ?> <!--end of PHP -->
