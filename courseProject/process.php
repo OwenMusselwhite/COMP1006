@@ -45,7 +45,7 @@ if ($action === 'add') {
     }
 }
 
-if ($action === 'add'){
+if (!empty($errors)) {//if no errors insert into database
     $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) 
                            VALUES (:first_name, :last_name, :position, :email, :phone)");
     $stmt->execute([
@@ -56,6 +56,21 @@ if ($action === 'add'){
         ':phone' => $phone
     ]);
     header("Location: index.php?success=added");
+    exit;
+}else{ //if there are errors, show them and stop the script before inserting to the DB
+    
+    //require "includes/header.php";
+    echo "<div class='alert alert-danger'>";
+    echo "<h2>Please fix the following:</h2>";
+    echo "<ul>";
+    foreach ($errors as $error) {
+        // htmlspecialchars() prevents any unexpected HTML from being rendered
+        echo "<li>" . htmlspecialchars($error) . "</li>";
+    }
+    echo "</ul>";
+    echo "</div>";
+
+    require "includes/footer.php";
     exit;
 }
 //==================//
