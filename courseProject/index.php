@@ -33,6 +33,10 @@ $success = $_GET['success'] ?? null; //get the success message from the URL
         <div class="success">Player deleted successfully.</div>
     <?php endif; ?>
 
+    <div class="add_action">
+    <a class="btn" href="add.php">Add New Player</a>
+    </div>
+
 
 <div class="top-actions">
     <a class="btn" href="add.php">Add New Player</a>
