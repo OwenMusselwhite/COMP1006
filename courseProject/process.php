@@ -58,7 +58,9 @@ if ($action === 'add'){
     header("Location: index.php");
     exit;
 }
-
+//==================//
+//=====EDIT FORM====//
+//==================//
 if ($action === "editForm") { 
 
     $id = $_GET['id'] ?? null; 
@@ -83,8 +85,43 @@ if ($action === "editForm") {
         </form> 
     <?php 
         exit; }
-?>
 
+//==================//
+//===UPDATE FORM====//
+//==================//
+if ($action === "update") {
+
+    $id = $_GET['id'] ?? null; 
+
+    if ($id === null) {
+        die("Invalid ID");
+    }
+
+    // Sanitize input 
+    $firstName = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS); 
+    $lastName = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS); 
+    $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS); 
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL); 
+    $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    //update database
+    $stmt = $pdo->prepare(" UPDATE roster 
+                            SET first_name = ?, last_name = ?, position = ?, email = ?, phone = ? 
+                            WHERE id = ?");
+
+    $stmt->execute([
+        $firstName => $firstName,
+        $lastName => $lastName,
+        $position => $position,
+        $email => $email,
+        $phone => $phone, 
+        $id => $id
+    ]);
+    header("Location: index.php");
+    exit;
+}
+
+?> <!--end of PHP -->
 
 <!DOCTYPE html>
 <html lang="en">
