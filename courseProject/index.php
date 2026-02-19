@@ -1,5 +1,9 @@
 <?php
 require "includes/connect.php"; //connect to the database
+
+//fetch all the players from the database
+$stmt = $pdo->prepare("SELECT * FROM roster ORDER BY last_name DESC"); //select all players from the database and order by last name
+$players = $stmt->fetchAll(PDO::FETCH_ASSOC); //fetch all the players
 ?>
 
 <!DOCTYPE html>

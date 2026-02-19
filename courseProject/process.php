@@ -45,7 +45,7 @@ if ($action === 'add') {
     }
 }
 
-if (!empty($errors)) {//if no errors insert into database
+if (empty($errors)) {//if no errors insert into database
     $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) 
                            VALUES (:first_name, :last_name, :position, :email, :phone)");
     $stmt->execute([
