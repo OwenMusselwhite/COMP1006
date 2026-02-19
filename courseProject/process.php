@@ -80,7 +80,6 @@ if ($action === "editForm") {
         <input type="text" name="position" value="<?= $member['position'] ?>"><br> 
         <input type="text" name="phone" value="<?= $member['phone'] ?>"><br> 
         <input type="email" name="email" value="<?= $member['email'] ?>"><br> 
-        <input type="text" name="team_name" value="<?= $member['team_name'] ?>"><br> 
         <button type="submit">Update Player</button> 
         </form> 
     <?php 
@@ -110,12 +109,12 @@ if ($action === "update") {
                             WHERE id = ?");
 
     $stmt->execute([
-        ':firstName' => $firstName,
-        ':lastName' => $lastName,
-        ':position' => $position,
-        ':email' => $email,
-        ':phone' => $phone, 
-        ':id' => $id
+        $firstName,
+        $lastName,
+        $position,
+        $email,
+        $phone, 
+        $id
     ]);
     header("Location: index.php?success=updated");
     exit;  
