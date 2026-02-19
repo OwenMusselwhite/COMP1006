@@ -121,6 +121,23 @@ if ($action === "update") {
     exit;  
 }
 
+//========//
+//=====DELETE====//
+//========//
+if ($action === "delete") {
+    $id = $_GET['id'] ?? null; 
+
+    if ($id === null) {
+        die("Invalid ID");
+    }
+
+    $stmt = $pdo->prepare(" DELETE FROM roster 
+                            WHERE id = ?");
+    $stmt->execute([$id]);
+    header("Location: index.php?success=deleted");
+    exit;
+}
+
 ?> <!--end of PHP -->
 
 <!DOCTYPE html>
