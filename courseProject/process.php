@@ -3,7 +3,7 @@
 require "includes/connect.php";
 
 //connect to the database 
-$dsn = "mysql:host=$host;dbname=$db"; //connect to databse
+//$dsn = "mysql:host=$host;dbname=$db"; //connect to databse
 
 $action = $_GET['action'] ?? null;
 
@@ -46,7 +46,8 @@ if ($action === 'add') {
 }
 
 if ($action === 'add'){
-    $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) VALUES (:first_name, :last_name, :position, :email, :phone)");
+    $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) 
+                           VALUES (:first_name, :last_name, :position, :email, :phone)");
     $stmt->execute([
         ':first_name' => $firstName,
         ':last_name' => $lastName,
@@ -54,9 +55,31 @@ if ($action === 'add'){
         ':email' => $email,
         ':phone' => $phone
     ]);
+    header("Location: index.php");
+    exit;
 }
 
+if ($action === "editForm") { 
+    $id = $_GET['id']; 
+    $stmt = $conn->prepare("SELECT * FROM team_members WHERE id = ?"); 
+    $stmt->bind_param("i", $id); $stmt->execute(); 
+    $member = $stmt->get_result()->fetch_assoc(); 
+?> 
+    <h2>Edit Team Member</h2> 
+    <form method="POST" action="process.php?action=update&id=<?= $id ?>"> 
+        <input type="text" name="first_name" value="<?= $member['first_name'] ?>" required><br> 
+        <input type="text" name="last_name" value="<?= $member['last_name'] ?>" required><br> 
+        <input type="text" name="position" value="<?= $member['position'] ?>"><br> 
+        <input type="text" name="phone" value="<?= $member['phone'] ?>"><br> 
+        <input type="email" name="email" value="<?= $member['email'] ?>"><br> 
+        <input type="text" name="team_name" value="<?= $member['team_name'] ?>"><br> 
+        <button type="submit">Update Player</button> 
+        </form> 
+    <?php 
+        exit; }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
