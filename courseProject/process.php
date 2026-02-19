@@ -69,7 +69,7 @@ if ($action === "editForm") {
         die("Invalid ID");
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM team_members WHERE id = ?"); 
+    $stmt = $pdo->prepare("SELECT * FROM roster WHERE id = ?"); 
     $stmt->execute([$id]); 
     $member = $stmt->fetch(PDO::FETCH_ASSOC); 
 ?> 
@@ -110,14 +110,14 @@ if ($action === "update") {
                             WHERE id = ?");
 
     $stmt->execute([
-        $firstName => $firstName,
-        $lastName => $lastName,
-        $position => $position,
-        $email => $email,
-        $phone => $phone, 
-        $id => $id
+        ':firstName' => $firstName,
+        ':lastName' => $lastName,
+        ':position' => $position,
+        ':email' => $email,
+        ':phone' => $phone, 
+        ':id' => $id
     ]);
-    header("Location: index.php?success=added");
+    header("Location: index.php?success=updated");
     exit;  
 }
 
@@ -139,27 +139,3 @@ if ($action === "delete") {
 }
 
 ?> <!--end of PHP -->
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roster Change</title>
-</head>
-
-<body>
-
-    <main class="container mt-4">
-        <h2>Changes Saved</h2>
-
-        <p>Changes saved for <?= htmlspecialchars($firstName) ?> <?= htmlspecialchars($lastName) ?> (Position: <?= htmlspecialchars($position) ?>, Email: <?= htmlspecialchars($email) ?>, Phone: <?= htmlspecialchars($phone) ?>).</p> <!--conformation message-->
-
-        <p class="mt-3">
-            <a href="index.php">Back to Home</a>
-        </p>
-    </main>
-</body>
-
-</html>
