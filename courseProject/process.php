@@ -45,15 +45,16 @@ if ($action === 'add') {
     }
 }
 
-$stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) VALUES (:first_name, :last_name, :position, :email, :phone)");
-$stmt->execute([
-    ':first_name' => $firstName,
-    ':last_name' => $lastName,
-    ':position' => $position,
-    ':email' => $email,
-    ':phone' => $phone
-]);
-
+if ($action === 'add'){
+    $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) VALUES (:first_name, :last_name, :position, :email, :phone)");
+    $stmt->execute([
+        ':first_name' => $firstName,
+        ':last_name' => $lastName,
+        ':position' => $position,
+        ':email' => $email,
+        ':phone' => $phone
+    ]);
+}
 
 ?>
 <!DOCTYPE html>
