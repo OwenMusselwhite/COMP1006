@@ -49,7 +49,7 @@ $success = $_GET['success'] ?? null; //get the success message from the URL
         <th>Actions</th>
     </tr>
 
-    <?php foreach ($players as $row): ?>
+    <?php foreach ($players as $row): ?> <!--Loop through the players and output each row-->
         <tr>
             <td><?= htmlspecialchars($row['first_name']) ?></td>
             <td><?= htmlspecialchars($row['last_name']) ?></td>
