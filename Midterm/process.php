@@ -1,83 +1,97 @@
 <?php
 require "includes/connect.php";
 
-$action = $_GET['action'] ?? null;
+// determine action from POST (primary) or GET for delete links
+$action = $_POST['action'] ?? $_GET['action'] ?? null;
 
 $errors = [];
-$books = $_POST['books'] ?? [];
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// allow delete via GET but others require POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $action !== 'delete') {
     die('Invalid request');
 }
 
-
 // --------------------------------------------------
-// Sanitize input
+// Handle add/edit/delete actions
 // --------------------------------------------------
-if ($action === 'add') {
-$firstName = trim(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS));
-$title  = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
-$author     = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
-$rating     = trim(filter_input(INPUT_POST, 'rating', FILTER_SANITIZE_SPECIAL_CHARS));
-$review_text   = trim(filter_input(INPUT_POST, 'review_text', FILTER_SANITIZE_SPECIAL_CHARS));
-$created_at  = trim(filter_input(INPUT_POST, 'created_at', FILTER_SANITIZE_SPECIAL_CHARS));
+if ($action === 'add' || $action === 'edit') {
+    // sanitize common fields
+    $id = isset($_POST['id']) ? (int)$_POST['id'] : null;
+    $title  = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS));
+    $author = trim(filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS));
+    $rating = trim(filter_input(INPUT_POST, 'rating', FILTER_SANITIZE_NUMBER_INT));
+    $review_text = trim(filter_input(INPUT_POST, 'review_text', FILTER_SANITIZE_SPECIAL_CHARS));
+    $created_at = trim(filter_input(INPUT_POST, 'created_at', FILTER_SANITIZE_SPECIAL_CHARS));
 
-//==================//
-//=====ADD FORM=====//
-//==================//
-
- //require text fields 
-    if ($firstName === null || $firstName === '') {
-        $errors[] = "First Name is Required.";
-    }
-
+    // validation
     if ($title === null || $title === '') {
-        $errors[] = "Title is Required.";
+        $errors[] = "Title is required.";
     }
-
     if ($author === null || $author === '') {
-        $errors[] = "Author is Required";
+        $errors[] = "Author is required.";
     }
-    if ($rating === null || $rating === '') {
-        $errors[] = "Rating is Required";
+    if ($rating === null || $rating === '' || !is_numeric($rating)) {
+        $errors[] = "Rating is required and must be a number.";
     }
-
     if ($review_text === null || $review_text === '') {
-        $errors[] = "Review Text is Required";
+        $errors[] = "Review text is required.";
+    }
+    if ($created_at === null || $created_at === '') {
+        $errors[] = "Created at is required.";
     }
 
-    if ($created_at === null || $created_at === '') {
-        $errors[] = "Created At is Required";
-    }
-    
-    if (empty($errors)) {//if no errors insert into database
-        $stmt = $pdo->prepare("INSERT INTO reviews (first_name, title, author, rating, review_text, created_at) 
-                               VALUES (:first_name, :title, :author, :rating, :review_text, :created_at)");
-        $stmt->execute([
-            ':first_name' => $firstName,
-            ':title' => $title,
-            ':author' => $author,
-            ':rating' => $rating,
-            ':review_text' => $review_text,
-            ':created_at' => $created_at
-        ]);
-        header("Location: index.php?success=added");
-        exit;
-    } else { //if there are errors, show them and stop the script before inserting to the DB
-        
-    
+    if (empty($errors)) {
+        if ($action === 'add') {
+            $stmt = $pdo->prepare("INSERT INTO reviews (title, author, rating, review_text, created_at) 
+                                   VALUES (:title, :author, :rating, :review_text, :created_at)");
+            $stmt->execute([
+                ':title' => $title,
+                ':author' => $author,
+                ':rating' => $rating,
+                ':review_text' => $review_text,
+                ':created_at' => $created_at
+            ]);
+            header("Location: index.php?success=added");
+            exit;
+        } else {
+            if (!$id) {
+                die('Missing review id');
+            }
+            $stmt = $pdo->prepare("UPDATE reviews SET title = :title, author = :author, rating = :rating, 
+                                   review_text = :review_text, created_at = :created_at WHERE id = :id");
+            $stmt->execute([
+                ':title' => $title,
+                ':author' => $author,
+                ':rating' => $rating,
+                ':review_text' => $review_text,
+                ':created_at' => $created_at,
+                ':id' => $id
+            ]);
+            header("Location: admin.php?success=updated");
+            exit;
+        }
+    } else {
         echo "<div class='alert alert-danger'>";
         echo "<h2>Please fix the following:</h2>";
         echo "<ul>";
         foreach ($errors as $error) {
-            // htmlspecialchars() prevents any unexpected HTML from being rendered
             echo "<li>" . htmlspecialchars($error) . "</li>";
         }
         echo "</ul>";
         echo "</div>";
-    
+
         require "includes/footer.php";
         exit;
+    }
+} elseif ($action === 'delete') {
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    if ($id) {
+        $stmt = $pdo->prepare("DELETE FROM reviews WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        header("Location: admin.php?success=deleted");
+        exit;
+    } else {
+        die('Missing id for deletion');
     }
 } else {
     die('Invalid action');

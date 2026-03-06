@@ -9,6 +9,8 @@
     <h1>Submit a Book Review</h1>
 
     <form action="process.php" method="POST">
+        <!-- indicate we're adding a new review -->
+        <input type="hidden" name="action" value="add">
 
         <label for="title">Book Title:</label>
         <input type="text" id="title" name="title">
