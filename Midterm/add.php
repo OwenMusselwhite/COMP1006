@@ -21,7 +21,7 @@
         <input type="text" id="author" name="author" required>
       
         <label for="rating">Rating</label>
-        <input type="text" id="rating" name="rating" required>
+        <input type="number" id="rating" name="rating" min="1" max="5" required>
 
         <label for="review_text">Review</label>
         <textarea id="review_text" name="review_text" required></textarea>
