@@ -30,14 +30,18 @@ if ($action === 'add' || $action === 'edit') {
     if ($author === null || $author === '') {
         $errors[] = "Author is required.";
     }
-    if ($rating === null || $rating === '' || !is_numeric($rating)) {
-        $errors[] = "Rating is required and must be a number.";
+    if ($rating > 5 || $rating < 1 || $rating === '' || !is_numeric($rating)) {
+        $errors[] = "Rating is required and must be a number between 1 and 5.";
     }
     if ($review_text === null || $review_text === '') {
         $errors[] = "Review text is required.";
     }
     if ($created_at === null || $created_at === '') {
         $errors[] = "Created at is required.";
+    }elseif (!filter_var($created_at, FILTER_VALIDATE_REGEXP, [
+        'options' => ['regexp' => '/^\d{2}\/\d{2}\/\d{4}$/']
+    ])) {
+        $errors[] = "Created at format is invalid.";
     }
 
     if (empty($errors)) {
@@ -83,16 +87,4 @@ if ($action === 'add' || $action === 'edit') {
         require "includes/footer.php";
         exit;
     }
-} elseif ($action === 'delete') {
-    $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
-    if ($id) {
-        $stmt = $pdo->prepare("DELETE FROM reviews WHERE id = :id");
-        $stmt->execute([':id' => $id]);
-        header("Location: admin.php?success=deleted");
-        exit;
-    } else {
-        die('Missing id for deletion');
-    }
-} else {
-    die('Invalid action');
 }
