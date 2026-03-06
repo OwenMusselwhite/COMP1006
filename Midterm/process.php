@@ -44,7 +44,7 @@ if ($action === 'add' || $action === 'edit') {
         $errors[] = "Created at format is invalid.";
     }
 
-    if (empty($errors)) {
+    if (empty($errors)) { //if no errors, insert or update the database
         if ($action === 'add') {
             $stmt = $pdo->prepare("INSERT INTO reviews (title, author, rating, review_text, created_at) 
                                    VALUES (:title, :author, :rating, :review_text, :created_at)");
@@ -57,8 +57,8 @@ if ($action === 'add' || $action === 'edit') {
             ]);
             header("Location: index.php?success=added");
             exit;
-        } else {
-            if (!$id) {
+        } else { //edit
+            if (!$id) { // should never happen if form is correct, but just in case
                 die('Missing review id');
             }
             $stmt = $pdo->prepare("UPDATE reviews SET title = :title, author = :author, rating = :rating, 
@@ -74,11 +74,11 @@ if ($action === 'add' || $action === 'edit') {
             header("Location: admin.php?success=updated");
             exit;
         }
-    } else {
+    } else { //if there are errors, show them and stop the script before inserting to the DB
         echo "<div class='alert alert-danger'>";
         echo "<h2>Please fix the following:</h2>";
         echo "<ul>";
-        foreach ($errors as $error) {
+        foreach ($errors as $error) { 
             echo "<li>" . htmlspecialchars($error) . "</li>";
         }
         echo "</ul>";

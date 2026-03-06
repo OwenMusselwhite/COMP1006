@@ -9,8 +9,7 @@
 
     <h1>New Review</h1>
 
-    <form action="process.php" method="POST">
-
+    <form action="process.php" method="POST"> <!--form submits to process.php-->
         
         <input type="hidden" name="action" value="add">
 

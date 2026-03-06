@@ -17,10 +17,10 @@ $reviews = $stmt->fetchAll();
 <main class="mt-4">
   <h2>Reviews</h2>
 
-  <?php if (count($reviews) === 0): ?>
+  <?php if (count($reviews) === 0): ?> <!--if there are no reviews, show this message-->
     <p>No reviews yet.</p>
   <?php else: ?>
-    <?php foreach ($reviews as $review): ?>
+    <?php foreach ($reviews as $review): ?> <!--Loop through the reviews and output each one-->
       <article>
         <h3><?php echo htmlspecialchars($review['title']); ?></h3>
         <p><strong>Author:</strong> <?php echo htmlspecialchars($review['author']); ?></p>
