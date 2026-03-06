@@ -18,6 +18,6 @@ $stmt->bindParam(':customer_id', $customerId);
 //execute
 $stmt->execute(); 
 
-// Redirect back to order list 
-header("Location: orders.php"); 
+// Redirect back to index.php 
+header("Location: index.php"); 
 exit; 
