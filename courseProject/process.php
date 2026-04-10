@@ -9,71 +9,9 @@ $action = $_GET['action'] ?? $_POST['action'] ?? null;
 
 $errors = [];
 
-//==================//
-//=====ADD FORM=====//
-//==================//
-if ($action === 'add') {
-    $firstName = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS);
-    $lastName = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS);
-    $position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $phone = filter_input(INPUT_POST,'phone',FILTER_SANITIZE_SPECIAL_CHARS);
-
-    //require text fields 
-    if ($firstName === null || $firstName === '') {
-        $errors[] = "First Name is Required.";
-    }
-
-    if ($lastName === null || $lastName === '') {
-        $errors[] = "Last Name is Required.";
-    }
-
-    //require email and validate proper format 
-    if ($email === null || $email === '') {
-        $errors[] = "Email is Required";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Email must be a valid email";
-    }
-
-    // require phone number and validate proper format 
-    if ($phone === null || $phone === '') {
-        $errors[] = "Phone number is required.";
-    } elseif (!filter_var($phone, FILTER_VALIDATE_REGEXP, [
-        'options' => ['regexp' => '/^[0-9\-\+\(\)\s]{7,25}$/']
-    ])) {
-        $errors[] = "Phone number format is invalid.";
-    }
 
 
-    if (empty($errors)) {//if no errors insert into database
-        $stmt = $pdo->prepare("INSERT INTO roster (first_name, last_name, position, email, phone) 
-                               VALUES (:first_name, :last_name, :position, :email, :phone)");
-        $stmt->execute([
-            ':first_name' => $firstName,
-            ':last_name' => $lastName,
-            ':position' => $position,
-            ':email' => $email,
-            ':phone' => $phone
-        ]);
-        header("Location: index.php?success=added");
-        exit;
-    }else{ //if there are errors, show them and stop the script before inserting to the DB
-        
-        //require "includes/header.php";
-        echo "<div class='alert alert-danger'>";
-        echo "<h2>Please fix the following:</h2>";
-        echo "<ul>";
-        foreach ($errors as $error) {
-            // htmlspecialchars() prevents any unexpected HTML from being rendered
-            echo "<li>" . htmlspecialchars($error) . "</li>";
-        }
-        echo "</ul>";
-        echo "</div>";
-
-        require "includes/footer.php";
-        exit;
-    }
-}
+    
 //==================//
 //=====EDIT FORM====//
 //==================//
