@@ -16,7 +16,7 @@
         <input type="hidden" name="action" value="add">
 
         <label for="name">First Name</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="first_name" required>
 
         <label for="last_name">Last Name</label>
         <input type="text" id="last_name" name="last_name" required>
