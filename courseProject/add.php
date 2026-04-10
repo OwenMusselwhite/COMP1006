@@ -5,6 +5,9 @@ require "includes/auth.php";
 // Connect to the database
 require "includes/connect.php";
 
+// Include reCAPTCHA configuration
+require "config.php";
+
 // Show the admin-style header/navigation
 require "includes/header_admin.php";
 
@@ -58,8 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ])) {
         $errors[] = "Phone number format is invalid.";
     }
-    }
 
+    // Verify reCAPTCHA
+    $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
+    if (empty($recaptchaResponse)) {
+        $errors[] = "Please complete the reCAPTCHA verification.";
+    } elseif (!verifyRecaptcha($recaptchaResponse)) {
+        $errors[] = "reCAPTCHA verification failed. Please try again.";
+    }
 
     // If there are no errors, insert the product into the database
     if (empty($errors)) {
@@ -116,6 +125,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="image" class="form-label">Player Image</label>
         <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp">
+
+        <!-- reCAPTCHA widget -->
+        <div class="g-recaptcha mb-3" data-sitekey="<?= RECAPTCHA_SITE_KEY ?>"></div>
 
         <button type="submit">Add Player</button>
     </form>
