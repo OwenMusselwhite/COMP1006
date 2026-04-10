@@ -2,6 +2,9 @@
 // Include the database connection so we can interact with the users table
 require "includes/connect.php";
 
+// Include reCAPTCHA configuration
+require "config.php";
+
 // Include the site header (navigation, Bootstrap, etc.)
 require "includes/header.php";
 
@@ -62,6 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Enforce a minimum password length
     if (strlen($password) < 8) {
         $errors[] = "Password must be at least 8 characters long.";
+    }
+
+    // Verify reCAPTCHA
+    $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
+    if (empty($recaptchaResponse)) {
+        $errors[] = "Please complete the reCAPTCHA verification.";
+    } elseif (!verifyRecaptcha($recaptchaResponse)) {
+        $errors[] = "reCAPTCHA verification failed. Please try again.";
     }
 
     // --------------------------------------------------
@@ -192,6 +203,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             class="form-control mb-4"
             required
         >
+
+        <!-- reCAPTCHA widget -->
+        <div class="g-recaptcha mb-3" data-sitekey="<?= RECAPTCHA_SITE_KEY ?>"></div>
 
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary">Create Account</button>
