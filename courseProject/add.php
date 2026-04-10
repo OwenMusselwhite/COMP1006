@@ -63,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // If there are no errors, insert the product into the database
     if (empty($errors)) {
-        $sql = "INSERT INTO roster (first_name, last_name, position, email, phone)
-                VALUES (:first_name, :last_name, :position, :email, :phone)";
+        $sql = "INSERT INTO roster (first_name, last_name, position, email, phone, image_path)
+                VALUES (:first_name, :last_name, :position, :email, :phone, :image_path)";
 
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':first_name', $name);
@@ -72,6 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':position', $price);
         $stmt->bindParam(':email', $imagePath);
         $stmt->bindParam(':phone', $imagePath);
+        $stmt->bindParam(':image_path', $imagePath);
+
         $stmt->execute();
 
         $success = "Player added successfully!";
