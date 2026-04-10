@@ -10,7 +10,7 @@
 
     <h1>Add New Player</h1>
 
-    <form action="process.php" method="POST">
+    <form action="process.php" method="POST" enctype="multipart/form-data">
 
         
         <input type="hidden" name="action" value="add">
@@ -29,6 +29,9 @@
 
         <label for="phone">Phone</label>
         <input type="text" id="phone" name="phone" required>
+
+        <label for="image">Player Image</label>
+        <input type="file" id="image" name="image" accept="image/*">
 
         <button type="submit">Add Player</button>
     </form>

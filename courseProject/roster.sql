@@ -5,5 +5,6 @@ CREATE TABLE roster (
   position VARCHAR(100),
   email      VARCHAR(150),
   phone      VARCHAR(20),
+  image      VARCHAR(255),
   changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
