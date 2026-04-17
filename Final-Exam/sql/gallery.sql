@@ -1,0 +1,7 @@
+CREATE TABLE roster (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  description TEXT,
+  image      VARCHAR(255),
+  changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
